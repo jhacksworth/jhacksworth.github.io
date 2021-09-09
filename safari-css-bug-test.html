@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Test for Safari CSS Bug</title>
+        <style>
+         #fail {letter-spacing: calc(1ch);}
+        </style>
+    </head>
+    <body>
+        <h1 id="fail">Test for Safari CSS Bug</h1>
+        <p>If you're reading this, your browser does not have the bug which
+            occurs when using the CSS <code>calc()</code> function with
+            <code>ch</code> or <code>ex</code> units.
+        </p>
+        <p>Browsers that experience this bug will not load this page.</p>
+        <hr />
+        <p>This page is a test for checking this issue in PDF.js:
+            <ul>
+                <li><a href="https://github.com/mozilla/pdf.js/issues/13726#issuecomment-885944863">PDFs with form fields crash in Safari #13726</a></li>
+            </ul>
+        </p>
+        <p>WebKit bug report and patch related to the crashing behavior:
+            <ul>
+                <li><a href="https://bugs.webkit.org/show_bug.cgi?id=216659">https://bugs.webkit.org/show_bug.cgi?id=216659</a></li>
+                <li><a href="https://trac.webkit.org/changeset/271688/webkit/">https://trac.webkit.org/changeset/271688/webkit/</a></li>
+            </ul>
+        </p>
+    </body>
+</html>
