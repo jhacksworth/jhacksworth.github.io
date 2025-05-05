@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>French Plural Nouns Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 750px;
+      margin: 40px auto;
+      line-height: 1.6;
+    }
+    h3.ex {
+      color: #999;
+      margin-top: -1.5em;
+    }
+   /* make instructions italic */
+   .instructions {
+     font-style: italic;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 6px;
+      font-size: 1em;
+    }
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+    }
+    .feedback {
+      margin-top: 20px;
+    }
+    button {
+      margin: 10px 10px 0 0;
+      padding: 8px 14px;
+      font-size: 1em;
+    }
+    a.translate-link {
+      font-size: 0.9em;
+      margin-left: 10px;
+    }
+    .translation {
+      display: block;
+      font-size: 0.9em;
+      color: #555;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>French Plural Nouns Quiz</h1>
+  <h3 class="ex">Excercise 1.2</h3>
+  <p class="instructions">Write the plural form of each singular noun. Make sure you know its meaning.</p>
+
+  <form id="quizForm">
+    <ol>
+      <li><label>une artiste:
+        <input type="text" name="q1">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=une%20artiste&op=translate">Translate</a>
+      </label></li>
+      <li><label>un <em>hors-d’œuvre</em>:
+        <input type="text" name="q2">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=un%20hors-d%E2%80%99%C5%93uvre&op=translate">Translate</a>
+      </label></li>
+      <li><label>le milieu:
+        <input type="text" name="q3">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=le%20milieu&op=translate">Translate</a>
+      </label></li>
+      <li><label>l’étudiante:
+        <input type="text" name="q4">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=l%E2%80%99%C3%A9tudiante&op=translate">Translate</a>
+      </label></li>
+      <li><label>un Français:
+        <input type="text" name="q5">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=un%20Fran%C3%A7ais&op=translate">Translate</a>
+      </label></li>
+      <li><label>un café:
+        <input type="text" name="q6">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=un%20caf%C3%A9&op=translate">Translate</a>
+      </label></li>
+      <li><label>le chapeau (hat):
+        <input type="text" name="q7">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=le%20chapeau&op=translate">Translate</a>
+      </label></li>
+      <li><label>l’eau:
+        <input type="text" name="q8">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=l%E2%80%99eau&op=translate">Translate</a>
+      </label></li>
+      <li><label>la fenêtre:
+        <input type="text" name="q9">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=la%20fen%C3%AAtre&op=translate">Translate</a>
+      </label></li>
+      <li><label>un choix:
+        <input type="text" name="q10">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=un%20choix&op=translate">Translate</a>
+      </label></li>
+      <li><label>une préférence:
+        <input type="text" name="q11">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=une%20pr%C3%A9f%C3%A9rence&op=translate">Translate</a>
+      </label></li>
+      <li><label>le travail:
+        <input type="text" name="q12">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=le%20travail&op=translate">Translate</a>
+      </label></li>
+      <li><label>le nez:
+        <input type="text" name="q13">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=le%20nez&op=translate">Translate</a>
+      </label></li>
+      <li><label>un cours:
+        <input type="text" name="q14">
+        <a class="translate-link" target="_blank" href="https://translate.google.com/?sl=fr&tl=en&text=un%20cours&op=translate">Translate</a>
+      </label></li>
+    </ol>
+    <button type="button" onclick="checkAnswers(true)">✅ Check Filled Answers</button>
+    <button type="button" onclick="clearAnswers()">🧹 Clear All</button>
+  </form>
+
+  <div class="feedback" id="feedback"></div>
+
+  <script>
+    const questions = [
+      "une artiste",
+      "un hors-d’œuvre",
+      "le milieu",
+      "l’étudiante",
+      "un Français",
+      "un café",
+      "le chapeau",
+      "l’eau",
+      "la fenêtre",
+      "un choix",
+      "une préférence",
+      "le travail",
+      "le nez",
+      "un cours"
+    ];
+
+    const answers = [
+      "des artistes",
+      "des hors-d’œuvre",
+      "les milieux",
+      "les étudiantes",
+      "des Français",
+      "des cafés",
+      "les chapeaux",
+      "les eaux",
+      "les fenêtres",
+      "des choix",
+      "des préférences",
+      "les travaux",
+      "les nez",
+      "des cours"
+    ];
+
+    const translations = [
+      "an artist, some artists",
+      "an appetizer, some appetizers",
+      "the environment, the environments",
+      "the (female) student, the (female) students",
+      "a Frenchman, some Frenchmen",
+      "a coffee, some coffees",
+      "the hat, the hats",
+      "the water, the waters",
+      "the window, the windows",
+      "a choice, some choices",
+      "a preference, some preferences",
+      "the work, the works",
+      "the nose, the noses",
+      "a course, some courses"
+    ];
+
+    function normalize(text) {
+      return text
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/œ/g, 'oe')
+        .replace(/[‘’´`′ʻ]/g, "'")
+        .replace(/[“”«»„‟]/g, '"')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    }
+
+    function checkAnswers(onlyFilled = false) {
+      const form = document.forms['quizForm'];
+      const feedbackDiv = document.getElementById('feedback');
+      feedbackDiv.innerHTML = '';
+      let output = '<ol>';
+      let answered = false;
+
+      for (let i = 0; i < answers.length; i++) {
+        const input = form[`q${i + 1}`];
+        const userRaw = input.value.trim();
+
+        if (onlyFilled && userRaw === '') continue;
+        answered = true;
+
+        const normUser = normalize(userRaw);
+        const normAnswer = normalize(answers[i]);
+        const phrase = `${questions[i]}, ${answers[i]}`;
+        const encodedPhrase = encodeURIComponent(phrase);
+        const translateURL = `https://translate.google.com/?sl=fr&tl=en&text=${encodedPhrase}&op=translate`;
+
+        if (normUser === normAnswer) {
+          output += `<li><span class="correct"><strong>${questions[i]}</strong>: ${answers[i]} ✔️</span>
+                     <a href="${translateURL}" target="_blank">Translate</a>
+                     <span class="translation">English: ${translations[i]}</span></li>`;
+        } else {
+          output += `<li><span class="incorrect"><strong>${questions[i]}</strong>: Your answer: "${userRaw}" ❌ — Correct: ${answers[i]}</span>
+                     <a href="${translateURL}" target="_blank">Translate</a>
+                     <span class="translation">English: ${translations[i]}</span></li>`;
+        }
+      }
+
+      output += '</ol>';
+      feedbackDiv.innerHTML = answered ? output : '<p>Please fill in at least one answer.</p>';
+    }
+
+    function clearAnswers() {
+      const form = document.forms['quizForm'];
+      for (let i = 0; i < answers.length; i++) {
+        form[`q${i + 1}`].value = '';
+      }
+      document.getElementById('feedback').innerHTML = '';
+    }
+  </script>
+</body>
+</html>
