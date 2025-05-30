@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adjective Agreement Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0 auto;
+      padding: 1em;
+      max-width: 750px;
+      line-height: 1.6;
+      background: #f9f9f9;
+    }
+    h1 {
+      font-size: 1.5em;
+    }
+    h3.ex {
+      color: #999;
+      margin-top: -1.5em;
+    }
+    label {
+      display: block;
+      margin: 1em 0 0.5em;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75em;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 0.75em 1em;
+      font-size: 1em;
+      margin-top: 1em;
+      border: none;
+      border-radius: 5px;
+      background-color: #007BFF;
+      color: white;
+      cursor: pointer;
+      display: inline-block;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .feedback {
+      margin-top: 2em;
+      background: #fff;
+      padding: 1em;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+    }
+    .translation {
+      display: block;
+      font-size: 0.9em;
+      color: #555;
+      margin-top: 4px;
+    }
+    @media (max-width: 480px) {
+      body {
+        padding: 0.75em;
+      }
+      input[type="text"] {
+        font-size: 1.1em;
+      }
+      button {
+        width: 100%;
+        margin-bottom: 0.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>French Adjective Agreement Quiz</h1>
+  <h3 class="ex">Exercise 1.5, page 17</h3>
+  <p>Complete the phrases with the correct adjective that agrees in gender and number.</p>
+
+  <form id="quizForm">
+    <ol>
+      <li><label>le <input type="text" name="q1"> homme (old)</label></li>
+      <li><label>la situation <input type="text" name="q2"> (difficult)</label></li>
+      <li><label>la <input type="text" name="q3"> maison (beautiful)</label></li>
+      <li><label>la personne <input type="text" name="q4"> (nice)</label></li>
+      <li><label>les fleurs <input type="text" name="q5"> (yellow)</label></li>
+      <li><label>des amis <input type="text" name="q6"> (sincere)</label></li>
+      <li><label>un <input type="text" name="q7"> homme (great)</label></li>
+      <li><label>une voiture <input type="text" name="q8"> (ancient)</label></li>
+      <li><label>d’ <input type="text" name="q9"> professeurs (former)</label></li>
+      <li><label>des appartements <input type="text" name="q10"> (inexpensive)</label></li>
+      <li><label>une comédie <input type="text" name="q11"> (funny)</label></li>
+      <li><label>un livre <input type="text" name="q12"> (interesting)</label></li>
+    </ol>
+    <button type="button" onclick="checkAnswers(true)">✅ Check Filled Answers</button>
+    <button type="button" onclick="clearAnswers()">🧹 Clear All</button>
+  </form>
+
+  <div class="feedback" id="feedback"></div>
+
+  <script>
+    const prompts = [
+      "le _____ homme",
+      "la situation _____",
+      "la _____ maison",
+      "la personne _____",
+      "les fleurs _____",
+      "des amis _____",
+      "un _____ homme",
+      "une voiture _____",
+      "d’ _____ professeurs",
+      "des appartements _____",
+      "une comédie _____",
+      "un livre _____"
+    ];
+
+    const answers = [
+      "vieux", "difficile", "belle", "gentille", "jaunes", "sincères",
+      "grand", "ancienne", "anciens", "bon marché", "drôle", "intéressant"
+    ];
+
+    const translations = [
+      "the old man", "the difficult situation", "the beautiful house",
+      "the nice person", "the yellow flowers", "some sincere friends",
+      "a great man", "an ancient car", "former professors",
+      "inexpensive apartments", "a funny comedy", "an interesting book"
+    ];
+
+    function normalize(text) {
+      return text
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/œ/g, 'oe')
+        .replace(/[‘’´`′ʻ]/g, "'")
+        .replace(/[“”«»„‟]/g, '"')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    }
+
+    function checkAnswers(onlyFilled = false) {
+      const form = document.forms['quizForm'];
+      const feedbackDiv = document.getElementById('feedback');
+      feedbackDiv.innerHTML = '';
+      let output = '<ol>';
+      let answered = false;
+
+      for (let i = 0; i < answers.length; i++) {
+        const input = form[`q${i + 1}`];
+        const userRaw = input.value.trim();
+
+        if (onlyFilled && userRaw === '') continue;
+        answered = true;
+
+        const normUser = normalize(userRaw);
+        const normAnswer = normalize(answers[i]);
+        const phrase = `${prompts[i].replace('_____', answers[i])}`;
+        const encodedPhrase = encodeURIComponent(phrase);
+        const translateURL = `https://translate.google.com/?sl=fr&tl=en&text=${encodedPhrase}&op=translate`;
+
+        if (normUser === normAnswer) {
+          output += `<li><span class="correct">${phrase} ✔️</span>
+                     <a href="${translateURL}" target="_blank">Translate</a>
+                     <span class="translation">English: ${translations[i]}</span></li>`;
+        } else {
+          const userPhrase = prompts[i].replace('_____', userRaw || '_____');
+          output += `<li><span class="incorrect">Your answer: "${userPhrase}" ❌ — Correct: ${phrase}</span>
+                     <a href="${translateURL}" target="_blank">Translate</a>
+                     <span class="translation">English: ${translations[i]}</span></li>`;
+        }
+      }
+
+      output += '</ol>';
+      feedbackDiv.innerHTML = answered ? output : '<p>Please fill in at least one answer.</p>';
+    }
+
+    function clearAnswers() {
+      const form = document.forms['quizForm'];
+      for (let i = 0; i < answers.length; i++) {
+        form[`q${i + 1}`].value = '';
+      }
+      document.getElementById('feedback').innerHTML = '';
+    }
+  </script>
+</body>
+</html>
