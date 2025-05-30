@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feminine Form of Adjectives Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0 auto;
+      padding: 1em;
+      max-width: 750px;
+      line-height: 1.6;
+      background: #f9f9f9;
+    }
+    h1 {
+      font-size: 1.5em;
+      /* text-align: center; */
+    }
+    h3.ex {
+      color: #999;
+      margin-top: -1.5em;
+    }
+    label {
+      display: block;
+      margin: 1em 0 0.5em;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75em;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 0.75em 1em;
+      font-size: 1em;
+      margin-top: 1em;
+      border: none;
+      border-radius: 5px;
+      background-color: #007BFF;
+      color: white;
+      cursor: pointer;
+      display: inline-block;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .feedback {
+      margin-top: 2em;
+      background: #fff;
+      padding: 1em;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+    }
+    .translation {
+      display: block;
+      font-size: 0.9em;
+      color: #555;
+      margin-top: 4px;
+    }
+    @media (max-width: 480px) {
+      body {
+        padding: 0.75em;
+      }
+      input[type="text"] {
+        font-size: 1.1em;
+      }
+      button {
+        width: 100%;
+        margin-bottom: 0.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>French Feminine Form of Adjectives Quiz</h1>
+  <h3 class="ex">Excercise 1.4, page 17</h3>
+  <p>Write the <strong>feminine singular</strong> form of the adjectives given.</p>
+
+  <form id="quizForm">
+    <ol>
+      <li><label>intéressant: <input type="text" name="q1"></label></li>
+      <li><label>naïf: <input type="text" name="q2"></label></li>
+      <li><label>agréable: <input type="text" name="q3"></label></li>
+      <li><label>sérieux: <input type="text" name="q4"></label></li>
+      <li><label>jaune: <input type="text" name="q5"></label></li>
+      <li><label>marron: <input type="text" name="q6"></label></li>
+      <li><label>bleu: <input type="text" name="q7"></label></li>
+      <li><label>costaud: <input type="text" name="q8"></label></li>
+      <li><label>fier: <input type="text" name="q9"></label></li>
+      <li><label>chic: <input type="text" name="q10"></label></li>
+      <li><label>cher: <input type="text" name="q11"></label></li>
+      <li><label>conservateur: <input type="text" name="q12"></label></li>
+      <li><label>beau: <input type="text" name="q13"></label></li>
+      <li><label>gros: <input type="text" name="q14"></label></li>
+      <li><label>actif: <input type="text" name="q15"></label></li>
+      <li><label>gentil: <input type="text" name="q16"></label></li>
+      <li><label>travailleur: <input type="text" name="q17"></label></li>
+      <li><label>drôle: <input type="text" name="q18"></label></li>
+      <li><label>vieux: <input type="text" name="q19"></label></li>
+      <li><label>heureux: <input type="text" name="q20"></label></li>
+    </ol>
+    <button type="button" onclick="checkAnswers(true)">✅ Check Filled Answers</button>
+    <button type="button" onclick="clearAnswers()">🧹 Clear All</button>
+  </form>
+
+  <div class="feedback" id="feedback"></div>
+
+  <script>
+    const masculine = [
+      "intéressant", "naïf", "agréable", "sérieux", "jaune",
+      "marron", "bleu", "costaud", "fier", "chic",
+      "cher", "conservateur", "beau", "gros", "actif",
+      "gentil", "travailleur", "drôle", "vieux", "heureux"
+    ];
+
+    const feminine = [
+      "intéressante", "naïve", "agréable", "sérieuse", "jaune",
+      "marron", "bleue", "costaude", "fière", "chic",
+      "chère", "conservatrice", "belle", "grosse", "active",
+      "gentille", "travailleuse", "drôle", "vieille", "heureuse"
+    ];
+
+    const translations = [
+      "interesting (m), interesting (f)", "naive (m), naive (f)", "pleasant (m/f), pleasant (m/f)",
+      "serious (m), serious (f)", "yellow (m/f), yellow (m/f)", "brown (m/f), brown (m/f)",
+      "blue (m), blue (f)", "sturdy (m), sturdy (f)", "proud (m), proud (f)", "stylish (m/f), stylish (m/f)",
+      "dear/expensive (m), dear/expensive (f)", "conservative (m), conservative (f)",
+      "handsome, beautiful", "fat (m), fat (f)", "active (m), active (f)",
+      "kind/nice (m), kind/nice (f)", "hard-working (m), hard-working (f)",
+      "funny (m/f), funny (m/f)", "old (m), old (f)", "happy (m), happy (f)"
+    ];
+
+    function normalize(text) {
+      return text
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/œ/g, 'oe')
+        .replace(/[‘’´`′ʻ]/g, "'")
+        .replace(/[“”«»„‟]/g, '"')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    }
+
+    function checkAnswers(onlyFilled = false) {
+      const form = document.forms['quizForm'];
+      const feedbackDiv = document.getElementById('feedback');
+      feedbackDiv.innerHTML = '';
+      let output = '<ol>';
+      let answered = false;
+
+      for (let i = 0; i < feminine.length; i++) {
+        const input = form[`q${i + 1}`];
+        const userRaw = input.value.trim();
+
+        if (onlyFilled && userRaw === '') continue;
+        answered = true;
+
+        const normUser = normalize(userRaw);
+        const normAnswer = normalize(feminine[i]);
+        const phrase = `${masculine[i]}, ${feminine[i]}`;
+        const encodedPhrase = encodeURIComponent(phrase);
+        const translateURL = `https://translate.google.com/?sl=fr&tl=en&text=${encodedPhrase}&op=translate`;
+
+        if (normUser === normAnswer) {
+          output += `<li><span class="correct"><strong>${masculine[i]}</strong>: ${feminine[i]} ✔️</span>
+                     <a href="${translateURL}" target="_blank">Translate</a>
+                     <span class="translation">English: ${translations[i]}</span></li>`;
+        } else {
+          output += `<li><span class="incorrect"><strong>${masculine[i]}</strong>: Your answer: "${userRaw}" ❌ — Correct: ${feminine[i]}</span>
+                     <a href="${translateURL}" target="_blank">Translate</a>
+                     <span class="translation">English: ${translations[i]}</span></li>`;
+        }
+      }
+
+      output += '</ol>';
+      feedbackDiv.innerHTML = answered ? output : '<p>Please fill in at least one answer.</p>';
+    }
+
+    function clearAnswers() {
+      const form = document.forms['quizForm'];
+      for (let i = 0; i < feminine.length; i++) {
+        form[`q${i + 1}`].value = '';
+      }
+      document.getElementById('feedback').innerHTML = '';
+    }
+  </script>
+</body>
+</html>
