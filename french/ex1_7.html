@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Exercise 1.7 – English to French</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0 auto;
+      padding: 1em;
+      max-width: 750px;
+      background: #f9f9f9;
+      line-height: 1.6;
+    }
+    h1 {
+      font-size: 1.5em;
+    }
+    h3.ex {
+      color: #999;
+      margin-top: -1.5em;
+    }
+    .instructions {
+      font-style: italic;
+    }
+    label {
+      display: block;
+      margin: 1em 0 0.5em;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75em;
+      font-size: 1em;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 0.75em 1em;
+      font-size: 1em;
+      margin-top: 1em;
+      border: none;
+      border-radius: 5px;
+      background-color: #007BFF;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    a.translate-link {
+      display: inline-block;
+      margin-top: 4px;
+      font-size: 0.9em;
+    }
+    .feedback {
+      margin-top: 2em;
+      background: #fff;
+      padding: 1em;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+    }
+    nav a {
+      display: inline-block;
+      margin-bottom: 1em;
+    }
+    @media (max-width: 480px) {
+      input[type="text"] {
+        font-size: 1.1em;
+      }
+      button {
+        width: 100%;
+        margin-bottom: 0.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav><a href="index.html">Home</a></nav>
+  <h1>French Translation Quiz</h1>
+  <h3 class="ex">Exercise 1.7</h3>
+  <p class="instructions">Translate the phrases into French.</p>
+
+  <form id="quizForm">
+    <ol>
+      <li><label>the dark-haired men:
+        <input type="text" name="q1">
+      </label></li>
+      <li><label>the kind woman:
+        <input type="text" name="q2">
+      </label></li>
+      <li><label>(some) red shoes:
+        <input type="text" name="q3">
+      </label></li>
+      <li><label>the old hotels:
+        <input type="text" name="q4">
+      </label></li>
+      <li><label>the beautiful apartments:
+        <input type="text" name="q5">
+      </label></li>
+      <li><label>the interesting courses:
+        <input type="text" name="q6">
+      </label></li>
+      <li><label>the courageous heroes:
+        <input type="text" name="q7">
+      </label></li>
+      <li><label>the rich appetizers:
+        <input type="text" name="q8">
+      </label></li>
+      <li><label>(some) expensive cars:
+        <input type="text" name="q9">
+      </label></li>
+      <li><label>(some) idealistic Americans:
+        <input type="text" name="q10">
+      </label></li>
+      <li><label>the great universities:
+        <input type="text" name="q11">
+      </label></li>
+      <li><label>(some) new books:
+        <input type="text" name="q12">
+      </label></li>
+      <li><label>the orange hats:
+        <input type="text" name="q13">
+      </label></li>
+      <li><label>(some) sad tragedies:
+        <input type="text" name="q14">
+      </label></li>
+      <li><label>the hardworking teachers:
+        <input type="text" name="q15">
+      </label></li>
+      <li><label>(some) proud people (persons):
+        <input type="text" name="q16">
+      </label></li>
+    </ol>
+    <button type="button" onclick="checkAnswers(true)">✅ Check Filled Answers</button>
+    <button type="button" onclick="clearAnswers()">🧹 Clear All</button>
+  </form>
+
+  <div class="feedback" id="feedback"></div>
+
+  <script>
+    const english = [
+      "the dark-haired men",
+      "the kind woman",
+      "(some) red shoes",
+      "the old hotels",
+      "the beautiful apartments",
+      "the interesting courses",
+      "the courageous heroes",
+      "the rich appetizers",
+      "(some) expensive cars",
+      "(some) idealistic Americans",
+      "the great universities",
+      "(some) new books",
+      "the orange hats",
+      "(some) sad tragedies",
+      "the hardworking teachers",
+      "(some) proud people (persons)"
+    ];
+
+    const answers = [
+      "les hommes bruns",
+      "la femme gentille",
+      "des chaussures rouges",
+      "les vieux hôtels",
+      "les beaux appartements",
+      "les cours intéressants",
+      "les héros courageux",
+      "les hors-d’œuvre riches",
+      "des voitures chères",
+      "des Américains idéalistes",
+      "les grandes universités",
+      "des nouveaux livres",
+      "les chapeaux orange",
+      "des tragédies tristes",
+      "les professeurs travailleurs",
+      "des personnes fières"
+    ];
+
+    function normalize(text) {
+      return text
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/œ/g, 'oe')
+        .replace(/[‘’´`′ʻ]/g, "'")
+        .replace(/[“”«»„‟]/g, '"')
+        .replace(/[\u0300-\u036f]/g, '')
+        .trim();
+    }
+
+    function checkAnswers(onlyFilled = false) {
+      const form = document.forms['quizForm'];
+      const feedbackDiv = document.getElementById('feedback');
+      feedbackDiv.innerHTML = '';
+      let output = '<ol>';
+      let answered = false;
+
+      for (let i = 0; i < answers.length; i++) {
+        const input = form[`q${i + 1}`];
+        const userRaw = input.value.trim();
+
+        if (onlyFilled && userRaw === '') continue;
+        answered = true;
+
+        const normUser = normalize(userRaw);
+        const normAnswer = normalize(answers[i]);
+        const encodedAnswer = encodeURIComponent(answers[i]);
+        const translateURL = `https://translate.google.com/?sl=fr&tl=en&text=${encodedAnswer}&op=translate`;
+
+        if (normUser === normAnswer) {
+          output += `<li><span class="correct">${english[i]} → ${answers[i]} ✔️</span>
+                     <a class="translate-link" href="${translateURL}" target="_blank">Translate</a></li>`;
+        } else {
+          output += `<li><span class="incorrect">${english[i]} → Your answer: "${userRaw}" ❌ — Correct: ${answers[i]}</span>
+                     <a class="translate-link" href="${translateURL}" target="_blank">Translate</a></li>`;
+        }
+      }
+
+      output += '</ol>';
+      feedbackDiv.innerHTML = answered ? output : '<p>Please fill in at least one answer.</p>';
+    }
+
+    function clearAnswers() {
+      const form = document.forms['quizForm'];
+      for (let i = 0; i < answers.length; i++) {
+        form[`q${i + 1}`].value = '';
+      }
+      document.getElementById('feedback').innerHTML = '';
+    }
+  </script>
+</body>
+</html>
